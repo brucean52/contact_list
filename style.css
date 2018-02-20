@@ -1,10 +1,16 @@
+.container{
+    display: flex;
+}
+
+h1{
+    text-align: center;
+}
+
 .table {
   display: flex;
   flex-flow: column nowrap;
-  font-size: .8rem;
   margin: 0.5rem;
   line-height: 1.5;
-  border-bottom: 1px solid #d0d0d0;
   flex: 1 1 auto;
 }
 
@@ -45,4 +51,35 @@
   min-width: 0px;
   white-space: nowrap;
   border-bottom: 1px solid #d0d0d0;
+    justify-content: center;
+}
+
+.add-form{
+    display: flex;
+    flex-direction: column;
+    flex: 0 0 20em;
+}
+
+.form-container{
+    #height: 100vh;
+    border: 1px solid red;
+    width: 20%;
+}
+
+@media (max-width: 991px){
+    .container{
+        flex-direction: column;
+    }
+    .add-form{
+        flex-direction: row;
+        flex-wrap: wrap;
+    }
+    .form-container{
+        order: -1;
+        height: auto;
+        width: 100%;
+    }
+    .td.buttons{
+        flex-direction: column;
+    }
 }
