@@ -22,6 +22,7 @@ $(document).ready(initializeApp);
 var contact_array = [];
 var dataPull;
 var deleteIndex = null;
+var contactObj;
 
 /***************************************************************************************************
  * initializeApp 
@@ -31,15 +32,11 @@ var deleteIndex = null;
  */
 function initializeApp() {
     addClickHandlersToElements();
-    onLoad();
+    pullFromServer();
     //renderContactOnDom();
     //renderGradeAverage();
 }
 
-function onLoad() {
-    console.log('onLoad');
-    //pullFromServer();
-}
 
 /***************************************************************************************************
  * addClickHandlerstoElements
@@ -88,17 +85,13 @@ function addContact() {
     if (firstName === '') {
 
     } else {
-        var contactObj = {
+        contactObj = {
             firstName: firstName,
             lastName: lastName,
             email: email,
             phone: phone
         };
-        contact_array.push(contactObj);
-        updateContactList('add');
-        clearAddContactFormInputs();
-        //console.log(contact_array);
-        //addToServer(studentObj);
+        addToServer(contactObj);
     }
 }
 
@@ -145,21 +138,21 @@ function renderContactOnDom(indexNum) {
     var delButton = $('<button>', {
         type: 'button',
         class: "delete-btn",
-        'rowIndex': indexNum,
+        'rowIndex': contact_array[indexNum].id,
         text: "Delete"
     });
     var editButton = $('<button>', {
         type: 'button',
         class: "edit-btn",
-        'rowIndex': indexNum,
+        'rowIndex': contact_array[indexNum].id,
         text: "Edit"
     });
 
     $('.table').append(newRow);
     $('.table > .tr:last-child').append(newFirstName);
     $('.table > .tr:last-child').append(newLastName);
-    $('.table > .tr:last-child').append(newEmail);
     $('.table > .tr:last-child').append(newPhone);
+    $('.table > .tr:last-child').append(newEmail);
 
     btnCell.append(editButton);
     btnCell.append(delButton);
@@ -170,20 +163,20 @@ function renderContactOnDom(indexNum) {
     (function () {
         $(delButton).click(function (event) {
             var index = $(event.target).attr('rowIndex');
-            console.log("DeleteBtn Index: " + index);
+            
             //deleteIndex = index;
             //deleteFromServer(index);
 
-            //removeStudent(index);
+            //removeContact(index);
 
         });
         $(editButton).click(function (event) {
             var index = $(event.target).attr('rowIndex');
-            console.log("EditBtn Index: " + index);
+            
             //deleteIndex = index;
             //deleteFromServer(index);
-            editContact(index);
-            //removeStudent(index);
+            //editContact(index);
+            //removeContact(index);
 
         });
     })()
@@ -209,10 +202,14 @@ function updateContactList(string) {
 }
 
 function editContact(index){
+    console.log("EditBtn Index: " + index);
+    var modal = document.getElementById('myModal');
+    modal.style.display = "block";
     
 }
 
-function removeStudent(index) {
+function removeContact(index) {
+    console.log("DeleteBtn Index: " + index);
     contact_array.splice(index, 1);
     $(".delete-btn[rowIndex=" + index + ']').parent().parent().remove();
 }
@@ -220,71 +217,64 @@ function removeStudent(index) {
 function pullFromServer() {
     $.ajax({
         dataType: 'json',
-        url: 'http://s-apis.learningfuze.com/sgt/get',
-        data: {
-            api_key: 'DgBqwGulF2'
-        },
+        url: 'php/read.php',
         method: 'post',
         success: successfulPull,
-        error: errorPull
+        error: errorFromServer
 
     });
 
 }
 
 function successfulPull(data) {
-    console.log('success: ' + data);
     dataPull = data.data;
-    console.log(dataPull);
     addServerDataToArray();
 }
 
-function errorPull() {
-    console.log('something went wrong :(');
+function errorFromServer(error) {
+    console.log('something went wrong :(', error);
 }
 
 function addServerDataToArray() {
-    var dataObj = {};
-    contact_array = [];
+    var contactObj = {};
     for (var j = 0; j < dataPull.length; j++) {
 
-        dataObj = {
+        contactObj = {
             id: dataPull[j].id,
-            name: dataPull[j].name,
-            course: dataPull[j].course,
-            grade: dataPull[j].grade
+            firstName: dataPull[j].firstName,
+            lastName: dataPull[j].lastName,
+            email: dataPull[j].email,
+            phone: dataPull[j].phone
         };
-        //console.log('dataObj: '+ dataObj);
-        contact_array.push(dataObj);
+        contact_array.push(contactObj);
     }
-    console.log('StudentArray: ' + contact_array);
-    updateContactList('server');
+    updateContactList();
 }
 
-function addToServer(student) {
+function addToServer(contact) {
     $.ajax({
         dataType: 'json',
-        url: 'http://s-apis.learningfuze.com/sgt/create',
+        url: 'php/create.php',
         data: {
-            api_key: 'DgBqwGulF2',
-            name: student.name,
-            course: student.course,
-            grade: student.grade
+            firstName: contact.firstName,
+            lastName: contact.lastName,
+            email: contact.email,
+            phone: contact.phone
         },
         method: 'post',
         success: successfulAdd,
-        error: errorPull
+        error: errorFromServer
     });
 }
 
 function successfulAdd(data) {
-    //console.log('successful add: '+ data);
+    console.log('successful add: '+ data);
     if (data.success === true) {
-        var lastIndex = contact_array.length - 1;
-        contact_array[lastIndex].id = data.new_id;
+        contactObj.id = data.id;
+        contact_array.push(contactObj);
+        updateContactList('add');
+        clearAddContactFormInputs();
     }
-
-    //console.log(contact_array);
 }
 
 function deleteFromServer(index) {
@@ -304,7 +294,29 @@ function deleteFromServer(index) {
 function successfulDelete(data) {
     console.log('successful delete: ' + data.success);
     if (data.success === true) {
-        removeStudent(deleteIndex);
+        removeContact(deleteIndex);
     }
 
 }
+
+
+
+// Get the button that opens the modal
+
+// Get the <span> element that closes the modal
+var span = document.getElementsByClassName("close")[0];
+
+// When the user clicks the button, open the modal 
+
+
+// When the user clicks on <span> (x), close the modal
+span.onclick = function() {
+    modal.style.display = "none";
+}
+
+// When the user clicks anywhere outside of the modal, close it
+//window.onclick = function(event) {
+//    if (event.target == modal) {
+//        modal.style.display = "none";
+//    }
+//}

@@ -1,7 +1,7 @@
 <!doctype html>
 <html>
 <head>
-    <script src="http://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <link rel="stylesheet" href="style.css">
     <meta name="viewport" content="initial-scale=1, user-scalable=no">
 </head>
@@ -27,24 +27,6 @@
 
     </div>
   </div>
-  <div class="tr">
-    <div class="td">
-      John
-    </div>
-        <div class="td">
-      Wayne
-    </div>
-    <div class="td">
-      sadf
-    </div>
-    <div class="td">
-      faddslj
-    </div>
-    <div class="td buttons">
-      <button class="edit-btn">Edit</button>
-      <button class="delete-btn">Delete</button>
-    </div>
-  </div>
 </div>
 <!--   Input Form-->
  <div class="form-container">
@@ -61,7 +43,7 @@
            </div>
             <div class="label-input">
                <label>Phone</label>
-               <input id="phone" type="tel" placeholder="Phone">
+               <input id="phone" type="tel" placeholder="(xxx) xxx-xxxx">
             </div>
            <div class="label-input">
                <label>Email</label>
@@ -71,8 +53,15 @@
      </form>
  </div>
 </div>
+<div id="myModal" class="modal">
 
-  <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+  <!-- Modal content -->
+  <div class="modal-content">
+    <span class="close">&times;</span>
+    <p>Some text in the Modal..</p>
+  </div>
+
+</div>
   <script type="text/javascript" src="script.js"></script>
 </body>
 </html>
