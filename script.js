@@ -22,6 +22,7 @@ $(document).ready(initializeApp);
 var contact_array = [];
 var dataPull;
 var deleteIndex = null;
+var rowIndex = null;
 var contactObj;
 
 /***************************************************************************************************
@@ -46,6 +47,8 @@ function initializeApp() {
  */
 function addClickHandlersToElements() {
     $('.submit-btn').on('click', handleSubmitClicked);
+    $('#phone').mask('(000) 000-0000');
+
     //$('.btn-default').on('click', handleCancelClick);
     //$('.btn-primary').on('click', pullFromServer);
 }
@@ -162,12 +165,14 @@ function renderContactOnDom(indexNum) {
 
     (function () {
         $(delButton).click(function (event) {
-            var index = $(event.target).attr('rowIndex');
-            
-            //deleteIndex = index;
-            //deleteFromServer(index);
-
-            //removeContact(index);
+            rowIndex = $(event.target).attr('rowIndex');
+            for(var j =0; j<contact_array.length; j++){
+                if(contact_array[j].id === rowIndex){
+                    console.log('deleteIndex', deleteIndex);
+                    deleteIndex = j;
+                }
+            }
+            deleteFromServer(rowIndex);
 
         });
         $(editButton).click(function (event) {
@@ -208,10 +213,9 @@ function editContact(index){
     
 }
 
-function removeContact(index) {
-    console.log("DeleteBtn Index: " + index);
-    contact_array.splice(index, 1);
-    $(".delete-btn[rowIndex=" + index + ']').parent().parent().remove();
+function removeContact() {
+    contact_array.splice(deleteIndex, 1);
+    $(".delete-btn[rowIndex=" + rowIndex + ']').parent().parent().remove();
 }
 
 function pullFromServer() {
@@ -280,21 +284,20 @@ function successfulAdd(data) {
 function deleteFromServer(index) {
     $.ajax({
         dataType: 'json',
-        url: 'http://s-apis.learningfuze.com/sgt/delete',
+        url: 'php/delete.php',
         data: {
-            api_key: 'DgBqwGulF2',
-            student_id: contact_array[index].id
+            id: index
         },
         method: 'post',
         success: successfulDelete,
-        error: errorPull
+        error: errorFromServer
     });
 }
 
 function successfulDelete(data) {
     console.log('successful delete: ' + data.success);
     if (data.success === true) {
-        removeContact(deleteIndex);
+        removeContact();
     }
 
 }
