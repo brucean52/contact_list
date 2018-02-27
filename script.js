@@ -22,7 +22,7 @@ $(document).ready(initializeApp);
 var contact_array = [];
 var dataPull;
 var deleteIndex = null;
-var rowIndex = null;
+var contactId = null;
 var contactObj;
 
 /***************************************************************************************************
@@ -47,6 +47,7 @@ function initializeApp() {
  */
 function addClickHandlersToElements() {
     $('.submit-btn').on('click', handleSubmitClicked);
+    $('.close-modal, .cancel-edit').on('click', closeModal);
     $('#phone').mask('(000) 000-0000');
 
     //$('.btn-default').on('click', handleCancelClick);
@@ -59,6 +60,12 @@ function addClickHandlersToElements() {
  * @return: 
        none
  */
+
+function closeModal(){
+    $(".confirm-modal").addClass('hide-modal');
+    $(".confirm-modal").removeClass('show-modal');
+}
+
 function handleSubmitClicked() {
     console.log('submit clicked.');
     addContact();
@@ -165,22 +172,20 @@ function renderContactOnDom(indexNum) {
 
     (function () {
         $(delButton).click(function (event) {
-            rowIndex = $(event.target).attr('rowIndex');
+            contactId = $(event.target).attr('rowIndex');
             for(var j =0; j<contact_array.length; j++){
                 if(contact_array[j].id === rowIndex){
                     console.log('deleteIndex', deleteIndex);
                     deleteIndex = j;
                 }
             }
-            deleteFromServer(rowIndex);
+            deleteFromServer(contactId);
 
         });
         $(editButton).click(function (event) {
-            var index = $(event.target).attr('rowIndex');
-            
-            //deleteIndex = index;
-            //deleteFromServer(index);
-            //editContact(index);
+            contactId = $(event.target).attr('rowIndex');
+
+            editContact();
             //removeContact(index);
 
         });
@@ -206,16 +211,15 @@ function updateContactList(string) {
     }
 }
 
-function editContact(index){
-    console.log("EditBtn Index: " + index);
-    var modal = document.getElementById('myModal');
-    modal.style.display = "block";
-    
+function editContact(){
+    console.log("EditBtn clicked");
+    $(".confirm-modal").addClass("show-modal");
+    $(".confirm-modal").removeClass('hide-modal');
 }
 
 function removeContact() {
     contact_array.splice(deleteIndex, 1);
-    $(".delete-btn[rowIndex=" + rowIndex + ']').parent().parent().remove();
+    $(".delete-btn[rowIndex=" + contactId + ']').parent().parent().remove();
 }
 
 function pullFromServer() {
@@ -301,25 +305,3 @@ function successfulDelete(data) {
     }
 
 }
-
-
-
-// Get the button that opens the modal
-
-// Get the <span> element that closes the modal
-var span = document.getElementsByClassName("close")[0];
-
-// When the user clicks the button, open the modal 
-
-
-// When the user clicks on <span> (x), close the modal
-span.onclick = function() {
-    modal.style.display = "none";
-}
-
-// When the user clicks anywhere outside of the modal, close it
-//window.onclick = function(event) {
-//    if (event.target == modal) {
-//        modal.style.display = "none";
-//    }
-//}
