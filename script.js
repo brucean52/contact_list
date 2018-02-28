@@ -223,21 +223,22 @@ function updateContactList(string) {
 
 function updateServerContact(){
     closeModal();
-    var editFirstName = $("#edit_first_name").val();
-    var editLastName = $("#edit_last_name").val();
-    var editPhone = $("#edit_phone").val();
-    var editEmail = $("#edit_email").val();
-    
+    contactObj = {
+        firstName: $("#edit_first_name").val(),
+        lastName: $("#edit_last_name").val(),
+        email: $("#edit_email").val(),
+        phone: $("#edit_phone").val()
+    };
     //console.log('editfirst', editFirstName);
     $.ajax({
         dataType: 'json',
         url: 'php/update.php',
         data: {
             id: contactId,
-            firstName: editFirstName,
-            lastName: editLastName,
-            email: editEmail,
-            phone: editPhone
+            firstName: contactObj.firstName,
+            lastName: contactObj.lastName,
+            email: contactObj.email,
+            phone: contactObj.phone
         },
         method: 'post',
         success: successfulUpdate,
@@ -262,13 +263,31 @@ function pullFromServer() {
 
 }
 function successfulUpdate(data) {
-    console.log('successful update: '+ data);
+    console.log('successful update: '+ data.success);
     if (data.success === true) {
-//        contactObj.id = data.id;
-//        contact_array.push(contactObj);
-//        updateContactList('add');
-//        clearAddContactFormInputs();
+        for(var j =0; j<contact_array.length; j++){
+            if(contact_array[j].id === contactId){
+                contact_array[j].firstName = contactObj.firstName;
+                contact_array[j].lastName = contactObj.lastName;
+                contact_array[j].email = contactObj.email;
+                contact_array[j].phone = contactObj.phone;
+                renderEditContact(j);
+            }
+        }
     }
+}
+
+function renderEditContact(editIndex){
+//    var test =     $(".edit-btn[rowIndex=" + contactId + ']').parent().parent().find(".td:nth-of-type(1)").text();
+//    console.log(test);
+    
+    $(".edit-btn[rowIndex=" + contactId + ']').parent().parent().find(".td:nth-of-type(1)").text(contact_array[editIndex].firstName);
+    
+    $(".edit-btn[rowIndex=" + contactId + ']').parent().parent().find(".td:nth-of-type(2)").text(contact_array[editIndex].lastName);
+
+    $(".edit-btn[rowIndex=" + contactId + ']').parent().parent().find(".td:nth-of-type(3)").text(contact_array[editIndex].phone);
+
+    $(".edit-btn[rowIndex=" + contactId + ']').parent().parent().find(".td:nth-of-type(4)").text(contact_array[editIndex].email);
 }
 
 function successfulPull(data) {
