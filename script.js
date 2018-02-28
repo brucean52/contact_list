@@ -48,7 +48,8 @@ function initializeApp() {
 function addClickHandlersToElements() {
     $('.submit-btn').on('click', handleSubmitClicked);
     $('.close-modal, .cancel-edit').on('click', closeModal);
-    $('#phone').mask('(000) 000-0000');
+    $('#phone, #edit_phone').mask('(000) 000-0000');
+    $('.confirm-edit').on('click', updateServerContact);
 
     //$('.btn-default').on('click', handleCancelClick);
     //$('.btn-primary').on('click', pullFromServer);
@@ -121,7 +122,7 @@ function clearAddContactFormInputs() {
  */
 function renderContactOnDom(indexNum) {
     //var lastIndex = contact_array.length - 1;
-    console.log('indexNum', indexNum);
+    //console.log('indexNum', indexNum);
     var newRow = $("<div>", {
         class: "tr"
     });
@@ -174,7 +175,7 @@ function renderContactOnDom(indexNum) {
         $(delButton).click(function (event) {
             contactId = $(event.target).attr('rowIndex');
             for(var j =0; j<contact_array.length; j++){
-                if(contact_array[j].id === rowIndex){
+                if(contact_array[j].id === contactId){
                     console.log('deleteIndex', deleteIndex);
                     deleteIndex = j;
                 }
@@ -184,10 +185,19 @@ function renderContactOnDom(indexNum) {
         });
         $(editButton).click(function (event) {
             contactId = $(event.target).attr('rowIndex');
+            //console.log("EditBtn clicked");
+            $(".confirm-modal").addClass("show-modal");
+            $(".confirm-modal").removeClass('hide-modal');
 
-            editContact();
-            //removeContact(index);
-
+            for(var j =0; j<contact_array.length; j++){
+                if(contact_array[j].id === contactId){
+                    $("#edit_first_name").val(contact_array[j].firstName);
+                    $("#edit_last_name").val(contact_array[j].lastName);
+                    $("#edit_phone").val(contact_array[j].phone);
+                    $("#edit_email").val(contact_array[j].email);
+                }
+            }
+            
         });
     })()
 
@@ -211,10 +221,28 @@ function updateContactList(string) {
     }
 }
 
-function editContact(){
-    console.log("EditBtn clicked");
-    $(".confirm-modal").addClass("show-modal");
-    $(".confirm-modal").removeClass('hide-modal');
+function updateServerContact(){
+    closeModal();
+    var editFirstName = $("#edit_first_name").val();
+    var editLastName = $("#edit_last_name").val();
+    var editPhone = $("#edit_phone").val();
+    var editEmail = $("#edit_email").val();
+    
+    //console.log('editfirst', editFirstName);
+    $.ajax({
+        dataType: 'json',
+        url: 'php/update.php',
+        data: {
+            id: contactId,
+            firstName: editFirstName,
+            lastName: editLastName,
+            email: editEmail,
+            phone: editPhone
+        },
+        method: 'post',
+        success: successfulUpdate,
+        error: errorFromServer
+    });
 }
 
 function removeContact() {
@@ -232,6 +260,15 @@ function pullFromServer() {
 
     });
 
+}
+function successfulUpdate(data) {
+    console.log('successful update: '+ data);
+    if (data.success === true) {
+//        contactObj.id = data.id;
+//        contact_array.push(contactObj);
+//        updateContactList('add');
+//        clearAddContactFormInputs();
+    }
 }
 
 function successfulPull(data) {
