@@ -22,8 +22,13 @@ h3, label {
     font-family: 'Montserrat';
 }
 
-input {
+.add-input {
     width: 90%;
+}
+
+.edit-input {
+    width: 50%;
+    margin-bottom: 1%;
 }
 
 .submit-btn {
@@ -44,12 +49,31 @@ input {
     color: white;
 }
 
-.delete-btn, .edit-btn{
+.confirm-edit {
+    font-family: 'Montserrat';
+    font-weight: 600;
+    width: 80px;
+    margin-top: 1%;
+    color: black;
+    background-color: white;
+    -webkit-transition-duration: 0.4s; /* Safari */
+    transition-duration: 0.4s;
+    cursor: pointer;
+    border: 2px solid #2e7d32;
+}
+
+.confirm-edit:hover{
+    background-color: #2e7d32;
+    color: white;
+} 
+
+.delete-btn, .edit-btn, .cancel-edit{
     font-weight: 600;
     width: 80px;
 }
 
-.delete-btn{
+.delete-btn , .cancel-edit{
+    font-family: 'Montserrat';
     color: black;
     background-color: white;
     -webkit-transition-duration: 0.4s; /* Safari */
@@ -58,12 +82,13 @@ input {
     border: 2px solid #f44336;    
 }
 
-.delete-btn:hover{
+.delete-btn:hover, .cancel-edit:hover{
     background-color: #f44336;
     color: white;    
 }
 
-.edit-btn{
+.edit-btn {
+    font-family: 'Montserrat';
     color: black;
     background-color: white;
     -webkit-transition-duration: 0.4s; /* Safari */
@@ -84,6 +109,8 @@ input {
     margin: 0.5rem;
     line-height: 1.5;
     flex: 1 1 auto;
+    overflow-y: auto;
+    min-width: auto;
 }
 
 .th {
@@ -115,12 +142,10 @@ input {
     display: flex;
     flex-flow: row nowrap;
     flex-grow: 1;
-    flex-basis: 0;
+    flex-basis: auto;
     padding: 0.5em;
-    word-break: break-word;
-    overflow: hidden;
     text-overflow: ellipsis;
-    min-width: 0px;
+    width: 20%;
     white-space: nowrap;
     border-bottom: 1px solid #d0d0d0;
     justify-content: center;
@@ -160,11 +185,20 @@ input {
     z-index: 50;
 }
 
+.close-modal{
+    float: right;
+    margin: 1%;
+}
+
 .show-modal{
     display: flex;
 }
 .hide-modal{
     display: none;
+}
+
+.modal-body{
+    padding-top: 2.5%;
 }
 
 @media (max-width: 991px) {
@@ -183,6 +217,12 @@ input {
     }
     .td.buttons {
         flex-direction: column;
+    }
+    .tr{
+        width: auto;
+    }
+    .td{
+        
     }
     
     .submit-btn{
