@@ -123,27 +123,27 @@ function clearAddContactFormInputs() {
 function renderContactOnDom(indexNum) {
     //var lastIndex = contact_array.length - 1;
     //console.log('indexNum', indexNum);
-    var newRow = $("<div>", {
+    var newRow = $("<tr>", {
         class: "tr"
     });
-    var newFirstName = $("<div>", {
+    var newFirstName = $("<td>", {
         class: "td",
         text: contact_array[indexNum].firstName
     });
-    var newLastName = $("<div>", {
+    var newLastName = $("<td>", {
         class: "td",
         text: contact_array[indexNum].lastName
     });
-    var newEmail = $("<div>", {
+    var newEmail = $("<td>", {
         class: "td",
         text: contact_array[indexNum].email
     });
-    var newPhone = $("<div>", {
+    var newPhone = $("<td>", {
         class: "td",
         text: contact_array[indexNum].phone
     });
 
-    var btnCell = $('<div>', {
+    var btnCell = $('<td>', {
         class: "td buttons"
     });
     var delButton = $('<button>', {
@@ -159,17 +159,17 @@ function renderContactOnDom(indexNum) {
         text: "Edit"
     });
 
-    $('.table').append(newRow);
-    $('.table > .tr:last-child').append(newFirstName);
-    $('.table > .tr:last-child').append(newLastName);
-    $('.table > .tr:last-child').append(newPhone);
-    $('.table > .tr:last-child').append(newEmail);
+    $('tbody').append(newRow);
+    $('tbody > tr:last-child').append(newFirstName);
+    $('tbody > tr:last-child').append(newLastName);
+    $('tbody > tr:last-child').append(newPhone);
+    $('tbody > tr:last-child').append(newEmail);
 
     btnCell.append(editButton);
     btnCell.append(delButton);
 
 
-    $('.table > .tr:last-child').append(btnCell);
+    $('tbody > tr:last-child').append(btnCell);
 
     (function () {
         $(delButton).click(function (event) {

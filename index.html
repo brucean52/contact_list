@@ -7,49 +7,43 @@
     <meta name="viewport" content="initial-scale=1, user-scalable=no">
 </head>
 <body>
-<h1>Contact List</h1>
+<div class="header">
+    <i class="logo far fa-address-book fa-2x"></i>
+    <h1>Contact List</h1>
+</div>
+
 <div class="container">
 <!--  Table-->
-   <div class="table">
-  <div class="tr th">
-    <div class="td">
-      First Name
-    </div>
-    <div class="td">
-      Last Name
-    </div>
-    <div class="td">
-      Phone
-    </div>
-    <div class="td">
-      Email
-    </div>
-    <div class="td">
-
-    </div>
-  </div>
-</div>
+    <table class="table">
+     <thead>
+       <tr class="tr">
+        <th class="th">First Name</th>
+        <th class="th">Last Name</th>
+        <th class="th">Phone</th>
+        <th class="th">Email</th>
+        <th class="th"></th>
+      </tr>        
+     </thead>
+    <tbody></tbody>
+    </table>
 <!--   Input Form-->
  <div class="form-container">
        <h3>Add Contact</h3>
 
      <form action="" class="add-form">
           <div class="label-input">
-              <label>First Name</label>
               <input id="first_name" class="add-input" type="text" placeholder="First Name" required>       
           </div>
            <div class="label-input">
-               <label>Last Name</label>
                <input id="last_name" class="add-input" type="text" placeholder="Last Name" required>
            </div>
             <div class="label-input">
-               <label>Phone</label>
-               <input id="phone" class="add-input" type="tel" placeholder="(xxx) xxx-xxxx" required>
+               <input id="phone" class="add-input" type="tel" placeholder="Phone (xxx) xxx-xxxx" required>
             </div> 
            <div class="label-input">
-               <label>Email</label>
                <input id="email" class="add-input" type="email" placeholder="Email" required>
            </div>
+           <div class="form-response"></div>
        <button type="button" class="submit-btn">Submit</button>    
      </form>
  </div>
@@ -76,6 +70,7 @@
                    <label>Email</label>
                    <input id="edit_email" class="edit-input" type="email">
                </div>
+               <div class="edit-form-response"></div>
             <button class="cancel-edit">Cancel</button>
             <button class="confirm-edit">Confirm</button>
             </div>

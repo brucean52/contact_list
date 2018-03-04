@@ -16,14 +16,32 @@ h1 {
     font-family: 'Montserrat';
     text-align: left;
     margin-left: 1%;
+    display: inline-block;
 }
 
-h3, label {
-    font-family: 'Montserrat';
+.logo{
+    display: inline-block;
+    margin-left: 1%;
 }
+h3 {
+    font-family: 'Montserrat';
+    padding-left: 1%;
+}
+
+/*
+.header{
+    display: inline-block;
+}
+*/
 
 .add-input {
+    font-family: 'Roboto';
     width: 90%;
+    outline: none;
+    background: transparent;
+    border: none;
+    border-bottom: 1px solid #ddd;
+    padding: 8px;
 }
 
 .edit-input {
@@ -42,11 +60,13 @@ h3, label {
     transition-duration: 0.4s;
     cursor: pointer;
     border: 2px solid #008CBA;
+    margin: 2% 0;
 }
 
 .submit-btn:hover{
     background-color: #008CBA;
     color: white;
+
 }
 
 .confirm-edit {
@@ -111,17 +131,21 @@ h3, label {
     flex: 1 1 auto;
     overflow-y: auto;
     min-width: auto;
+    box-shadow: 0 2px 2px 0 rgba(0,0,0,0.14), 0 1px 5px 0 rgba(0,0,0,0.12), 0 3px 1px -2px rgba(0,0,0,0.2);
 }
 
 .th {
-    display: none;
     font-weight: 700;
-    background-color: #f2f2f2;
-}
-
-.th > .td {
-    white-space: normal;
-    justify-content: center;
+    background-color: #e53935;
+    color: white;
+    text-align: left;
+    display: flex;
+    flex-flow: row nowrap;
+    flex-grow: 1;
+    flex-basis: auto;
+    padding: 0.5em;
+    text-overflow: ellipsis;
+    width: 20%;
 }
 
 .tr {
@@ -148,20 +172,27 @@ h3, label {
     width: 20%;
     white-space: nowrap;
     border-bottom: 1px solid #d0d0d0;
-    justify-content: center;
+    text-align: left;
 }
 
 .add-form {
     display: flex;
     flex-direction: column;
     flex: 0 0 20em;
+    background-color: white;
+    width: 94%;
+    padding-left: 5%;
+    box-shadow: 0 2px 2px 0 rgba(0,0,0,0.14), 0 1px 5px 0 rgba(0,0,0,0.12), 0 3px 1px -2px rgba(0,0,0,0.2);
 }
 
 .form-container {
     width: 20%;
-    background-color: #f2f2f2;
+    background-color: #e53935;
+    color: white;
+    box-shadow: 0 2px 2px 0 rgba(0,0,0,0.14), 0 1px 5px 0 rgba(0,0,0,0.12), 0 3px 1px -2px rgba(0,0,0,0.2);
     padding-bottom: 1%;
-    padding-left: 1%;
+    padding-left: 3px;
+
 }
 
 .modal-content{
@@ -201,7 +232,14 @@ h3, label {
     padding-top: 2.5%;
 }
 
+.td.buttons{
+    justify-content: space-around;
+}
+
 @media (max-width: 991px) {
+    .add-input{
+        width: 80%;
+    }
     .container {
         flex-direction: column;
     }
@@ -214,15 +252,30 @@ h3, label {
         height: auto;
         width: 100%;
         padding-bottom: 3%;
-    }
-    .td.buttons {
-        flex-direction: column;
+        padding-left: 1%;
     }
     .tr{
-        width: auto;
+        display: flex; 
+        flex-direction: row;
+        flex-wrap: wrap;
+        margin: 0.5em 0;
     }
-    .td{
-        
+    
+    .add-form{
+        padding-left: 1%;
+        width: 98%;
+    }
+    
+    .th{
+        border-bottom: solid 1px black;
+    }
+    
+    .th:last-child{
+        border-bottom: none;
+    }
+    
+    .td, .th{
+         flex: 1 1 150px; 
     }
     
     .submit-btn{
