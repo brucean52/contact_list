@@ -47,9 +47,11 @@ function initializeApp() {
  */
 function addClickHandlersToElements() {
     $('.submit-btn').on('click', handleSubmitClicked);
-    $('.close-modal, .cancel-edit').on('click', closeModal);
+    $('.close-modal, .cancel-edit').on('click', closeEditModal);
+    $('.close-modal, .cancel-delete').on('click', closeDeleteModal);
     $('#phone, #edit_phone').mask('(000) 000-0000');
     $('.confirm-edit').on('click', updateServerContact);
+    $('.confirm-delete').on('click', deleteFromServer);
     
     $('.edit-input').keypress(function (event) {
      var key = event.which;
@@ -79,9 +81,14 @@ function fixTableHead(){
        none
  */
 
-function closeModal(){
+function closeEditModal(){
     $(".confirm-modal").addClass('hide-modal');
     $(".confirm-modal").removeClass('show-modal');
+}
+
+function closeDeleteModal(){
+    $(".delete-modal").addClass('hide-modal');
+    $(".delete-modal").removeClass('show-modal');
 }
 
 function handleSubmitClicked(event) {
@@ -202,14 +209,19 @@ function renderContactOnDom(indexNum) {
     (function () {
         $(delButton).click(function (event) {
             contactId = $(event.target).attr('rowIndex');
+            $(".delete-modal").addClass("show-modal");
+            $(".delete-modal").removeClass('hide-modal');
+            
             for(var j =0; j<contact_array.length; j++){
                 if(contact_array[j].id === contactId){
                     console.log('deleteIndex', deleteIndex);
                     deleteIndex = j;
+                    var name = contact_array[j].firstName + " " + contact_array[j].lastName+"?";
+                    $( ".remove-contact" ).text( "Remove contact "+name );
                 }
             }
-            deleteFromServer(contactId);
-
+            
+            
         });
         $(editButton).click(function (event) {
             contactId = $(event.target).attr('rowIndex');
@@ -275,7 +287,7 @@ function updateServerContact(event){
             email: email,
             phone: phone
         };
-        closeModal();
+        closeEditModal();
         $.ajax({
             dataType: 'json',
             url: 'php/update.php',
@@ -390,12 +402,13 @@ function successfulAdd(data) {
     }
 }
 
-function deleteFromServer(index) {
+function deleteFromServer() {
+    closeDeleteModal();
     $.ajax({
         dataType: 'json',
         url: 'php/delete.php',
         data: {
-            id: index
+            id: contactId
         },
         method: 'post',
         success: successfulDelete,

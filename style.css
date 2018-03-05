@@ -86,12 +86,12 @@ h3 {
     color: white;
 } 
 
-.delete-btn, .edit-btn, .cancel-edit{
+.delete-btn, .edit-btn, .cancel-edit, .cancel-delete, .confirm-delete{
     font-weight: 600;
     width: 80px;
 }
 
-.delete-btn , .cancel-edit{
+.delete-btn , .cancel-edit, .confirm-delete{
     font-family: 'Montserrat';
     color: black;
     background-color: white;
@@ -101,12 +101,12 @@ h3 {
     border: 2px solid #f44336;    
 }
 
-.delete-btn:hover, .cancel-edit:hover{
+.delete-btn:hover, .confirm-delete:hover{
     background-color: #f44336;
     color: white;    
 }
 
-.edit-btn {
+.edit-btn, .cancel-edit, .cancel-delete {
     font-family: 'Montserrat';
     color: black;
     background-color: white;
@@ -116,7 +116,7 @@ h3 {
     border: 2px solid #555555;    
 }
 
-.edit-btn:hover{
+.edit-btn:hover, .cancel-edit:hover, .cancel-delete:hover{
     background-color: #555555;
     color: white;    
 }
@@ -216,7 +216,7 @@ h3 {
     margin-left: 2%;
 }
 
-.confirm-modal{
+.confirm-modal, .delete-modal{
     display: none;
     height: 100vh;
     width: 100vw;
@@ -247,6 +247,19 @@ h3 {
     margin-left: 2%;
     width: 92%;
     box-shadow: 0 2px 2px 0 rgba(0,0,0,0.14), 0 1px 5px 0 rgba(0,0,0,0.12), 0 3px 1px -2px rgba(0,0,0,0.2);
+}
+
+.delete-modal > .modal-content{
+    height: 15%;
+    width: 15%;
+    top: 40%;
+    left: 40%;
+}
+
+.remove-contact{
+    font-family: 'Roboto';
+    color: black;
+    margin-bottom: 2%;
 }
 
 .td.buttons{
@@ -317,15 +330,27 @@ h3 {
         top: 20%;
         left: 10%;
     }
+    
+    .delete-modal > .modal-content{
+        height: 20%;
+        width: 80%;
+        top: 20%;
+        left: 10%;
+    }
 }
 
 @media (max-width: 991px){
     
 }
 
-@media screen and (max-width: 991px) and (orientation:landscape){
+@media screen and (max-width: 767px) and (orientation:landscape){
     .modal-content{
         height: 80%;
+        top: 5%;
+    }
+    
+    .delete-modal > .modal-content{
+        height: 40%;
         top: 5%;
     }
 }
