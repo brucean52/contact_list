@@ -2,16 +2,16 @@
 
 ## Overview
 
-This app is a technical demo using core Javascript, Flexbox, PHP, and MySQL. 
+This app is a technical demo using jQuery, Ajax, Flexbox, PHP, and MySQL. 
 
 ### Features
 
 * Mobile Responsive
 * Sortable contact list
-* An about section with a link to the author's portfolio
+* CRUD operations using PHP and MySQL
 
 ## Screenshots
-![alt text](link "Screenshot 1")
+![alt text](https://github.com/brucean52/contact_list/blob/master/assets/screenshots/screenshot_1.png "Screenshot 1")
 
 ## Author
 
