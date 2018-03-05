@@ -16,7 +16,7 @@
 <!--  Table-->
     <table class="table">
      <thead>
-       <tr class="tr">
+       <tr class="tr tableHead">
         <th class="th">First Name</th>
         <th class="th">Last Name</th>
         <th class="th">Phone</th>
@@ -32,19 +32,19 @@
 
      <form action="" class="add-form">
           <div class="label-input">
-              <input id="first_name" class="add-input" type="text" placeholder="First Name" required>       
+              <input id="first_name" class="add-input" type="text" placeholder="First Name">       
           </div>
            <div class="label-input">
-               <input id="last_name" class="add-input" type="text" placeholder="Last Name" required>
+               <input id="last_name" class="add-input" type="text" placeholder="Last Name">
            </div>
             <div class="label-input">
-               <input id="phone" class="add-input" type="tel" placeholder="Phone (xxx) xxx-xxxx" required>
+               <input id="phone" class="add-input" type="tel" placeholder="Phone (xxx) xxx-xxxx">
             </div> 
            <div class="label-input">
-               <input id="email" class="add-input" type="email" placeholder="Email" required>
+               <input id="email" class="add-input" type="email" placeholder="Email">
            </div>
-           <div class="form-response"></div>
-       <button type="button" class="submit-btn">Submit</button>    
+           <button type="submit" class="submit-btn">Submit</button>
+           <div class="form-response"></div> 
      </form>
  </div>
 </div>
@@ -52,27 +52,26 @@
         <div class="modal-content">
           <div class="close-modal">
               <i class="fas fa-times"></i>
-          </div>          
+          </div>       
+         <h3>Edit Contact</h3>
+   
             <div class="modal-body">
-              <div class="label-input">
-                  <label>First Name</label>
-                  <input id="edit_first_name" class="edit-input" type="text">       
-              </div>
-               <div class="label-input">
-                   <label>Last Name</label>
-                   <input id="edit_last_name" class="edit-input" type="text">
-               </div>
-                <div class="label-input">
-                   <label>Phone</label>
-                   <input id="edit_phone" class="edit-input" type="tel">
-                </div>
-               <div class="label-input">
-                   <label>Email</label>
-                   <input id="edit_email" class="edit-input" type="email">
-               </div>
-               <div class="edit-form-response"></div>
-            <button class="cancel-edit">Cancel</button>
-            <button class="confirm-edit">Confirm</button>
+                   <div class="label-input">
+                      <input id="edit_first_name" class="edit-input" type="text">       
+                  </div>
+                   <div class="label-input">
+                       <input id="edit_last_name" class="edit-input" type="text">
+                   </div>
+                    <div class="label-input">
+                       <input id="edit_phone" class="edit-input" type="tel">
+                    </div>
+                   <div class="label-input">
+                       <input id="edit_email" class="edit-input" type="email">
+                   </div>
+                <button class="cancel-edit">Cancel</button>
+                <button class="confirm-edit">Confirm</button>
+                <div class="edit-form-response"></div>
+
             </div>
 
         </div>

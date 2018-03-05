@@ -50,9 +50,26 @@ function addClickHandlersToElements() {
     $('.close-modal, .cancel-edit').on('click', closeModal);
     $('#phone, #edit_phone').mask('(000) 000-0000');
     $('.confirm-edit').on('click', updateServerContact);
-
+    
+    $('.edit-input').keypress(function (event) {
+     var key = event.which;
+     if(key === 13)  // the enter key code
+      {
+        $('.confirm-edit').click();
+        return false;  
+      }
+    });   
+    window.onscroll = function() {fixTableHead()};
     //$('.btn-default').on('click', handleCancelClick);
     //$('.btn-primary').on('click', pullFromServer);
+}
+
+function fixTableHead(){
+    if (window.pageYOffset > 300) {
+        $('.tableHead').addClass("fixed");
+    } else {
+        $('.tableHead').removeClass("fixed");
+  }
 }
 
 /***************************************************************************************************
@@ -67,8 +84,8 @@ function closeModal(){
     $(".confirm-modal").removeClass('show-modal');
 }
 
-function handleSubmitClicked() {
-    console.log('submit clicked.');
+function handleSubmitClicked(event) {
+    event.preventDefault();
     addContact();
 }
 
@@ -93,8 +110,18 @@ function addContact() {
     var lastName = $('#last_name').val();
     var email = $('#email').val();
     var phone = $('#phone').val();
-    if (firstName === '') {
+    
+    var phoneRegex = /^\(\d{3}\)\s?\d{3}-\d{4}$/;
+    var emailRegex = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
 
+    if (firstName === '') {
+        $( ".form-response" ).text( "Please enter a valid first name" );
+    } else if(lastName ===''){
+        $( ".form-response" ).text( "Please enter a valid last name" );
+    } else if(phoneRegex.test(phone) === false){
+        $( ".form-response" ).text( "Please enter a valid phone" );
+    } else if(emailRegex.test(email) === false){
+        $( ".form-response" ).text( "Please enter a valid email" );
     } else {
         contactObj = {
             firstName: firstName,
@@ -103,6 +130,7 @@ function addContact() {
             phone: phone
         };
         addToServer(contactObj);
+        $( ".form-response" ).text( "" );
     }
 }
 
@@ -221,29 +249,50 @@ function updateContactList(string) {
     }
 }
 
-function updateServerContact(){
-    closeModal();
-    contactObj = {
-        firstName: $("#edit_first_name").val(),
-        lastName: $("#edit_last_name").val(),
-        email: $("#edit_email").val(),
-        phone: $("#edit_phone").val()
-    };
-    //console.log('editfirst', editFirstName);
-    $.ajax({
-        dataType: 'json',
-        url: 'php/update.php',
-        data: {
-            id: contactId,
-            firstName: contactObj.firstName,
-            lastName: contactObj.lastName,
-            email: contactObj.email,
-            phone: contactObj.phone
-        },
-        method: 'post',
-        success: successfulUpdate,
-        error: errorFromServer
+function updateServerContact(event){
+    event.preventDefault();
+    
+    var firstName = $('#edit_first_name').val();
+    var lastName = $('#edit_last_name').val();
+    var email = $('#edit_email').val();
+    var phone = $('#edit_phone').val();
+    
+    var phoneRegex = /^\(\d{3}\)\s?\d{3}-\d{4}$/;
+    var emailRegex = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+
+    if (firstName === '') {
+        $( ".edit-form-response" ).text( "Please enter a valid first name" );
+    } else if(lastName ===''){
+        $( ".edit-form-response" ).text( "Please enter a valid last name" );
+    } else if(phoneRegex.test(phone) === false){
+        $( ".edit-form-response" ).text( "Please enter a valid phone" );
+    } else if(emailRegex.test(email) === false){
+        $( ".edit-form-response" ).text( "Please enter a valid email" );
+    } else {
+        contactObj = {
+            firstName: firstName,
+            lastName: lastName,
+            email: email,
+            phone: phone
+        };
+        closeModal();
+        $.ajax({
+            dataType: 'json',
+            url: 'php/update.php',
+            data: {
+                id: contactId,
+                firstName: contactObj.firstName,
+                lastName: contactObj.lastName,
+                email: contactObj.email,
+                phone: contactObj.phone
+            },
+            method: 'post',
+            success: successfulUpdate,
+            error: errorFromServer
     });
+        $( ".edit-form-response" ).text( "" );
+    }
+
 }
 
 function removeContact() {
