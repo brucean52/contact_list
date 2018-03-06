@@ -1,10 +1,5 @@
 <?php
     require_once('../config/mysql_connect.php');
-    $output = [
-        'success' => false,
-        'error' => [],
-        'id' => null
-    ];
     
     $drop = "DROP TABLE `list`";
     $result = mysqli_query($conn, $drop);
