@@ -121,9 +121,9 @@ function addContact() {
     var phoneRegex = /^\(\d{3}\)\s?\d{3}-\d{4}$/;
     var emailRegex = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
 
-    if (firstName === '') {
+    if (!/\S/.test(firstName)) {
         $( ".form-response" ).text( "Please enter a valid first name" );
-    } else if(lastName ===''){
+    } else if(!/\S/.test(lastName)){
         $( ".form-response" ).text( "Please enter a valid last name" );
     } else if(phoneRegex.test(phone) === false){
         $( ".form-response" ).text( "Please enter a valid phone" );
@@ -272,9 +272,9 @@ function updateServerContact(event){
     var phoneRegex = /^\(\d{3}\)\s?\d{3}-\d{4}$/;
     var emailRegex = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
 
-    if (firstName === '') {
+    if (!/\S/.test(firstName)) {
         $( ".edit-form-response" ).text( "Please enter a valid first name" );
-    } else if(lastName ===''){
+    } else if(!/\S/.test(lastName)){
         $( ".edit-form-response" ).text( "Please enter a valid last name" );
     } else if(phoneRegex.test(phone) === false){
         $( ".edit-form-response" ).text( "Please enter a valid phone" );
