@@ -2,7 +2,7 @@
     require_once('../config/mysql_connect.php');
     
     $drop = "DROP TABLE `list`";
-    $result = mysqli_query($conn, $drop);
+    $drop_result = mysqli_query($conn, $drop);
 
     $create = "CREATE TABLE `list` (
       `id` int(11) NOT NULL PRIMARY KEY AUTO_INCREMENT,
@@ -12,7 +12,9 @@
       `phone` varchar(20) NOT NULL
         )";
 
-    if (mysqli_query($conn, $create)) {
+    $create_result = mysqli_query($conn, $drop)
+
+    if (!empty($create_result)) {
         echo "Table list created successfully";
     } else {
         echo "Error creating table: " . mysqli_error($conn);
@@ -29,7 +31,7 @@
     (7, 'Whitney', 'Houston', 'singer@gmail.com', '(543) 438-0309');
     ";
 
-    $result = mysqli_query($conn, $query);
+    $query_result = mysqli_query($conn, $query);
     print($result);
 
     mysqli_close($conn);
