@@ -31,7 +31,7 @@
     ('Whitney', 'Houston', 'singer@gmail.com', '(543) 438-0309');";
 
     $query_result = mysqli_query($conn, $query);
-    print($result);
+    print($query_result);
 
     mysqli_close($conn);
 ?>
