@@ -12,13 +12,13 @@
       `phone` varchar(20) NOT NULL
         )";
 
-    $create_result = mysqli_query($conn, $drop)
+    $create_result = mysqli_query($conn, $drop);
 
-//    if (!empty($create_result)) {
-//        echo "Table list created successfully";
-//    } else {
-//        echo "Error creating table: " . mysqli_error($conn);
-//    }
+    if (!empty($create_result)) {
+        echo "Table list created successfully";
+    } else {
+        echo "Error creating table: " . mysqli_error($conn);
+    }
 
     $query = "INSERT INTO `list` (`firstName`, `lastName`, `email`, `phone`) VALUES
     ('John', 'Wayne', 'test@gmail.com', '(243) 234-3920'),
