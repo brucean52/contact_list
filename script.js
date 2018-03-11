@@ -1,7 +1,3 @@
-/* information about jsdocs: 
-* param: http://usejsdoc.org/tags-param.html#examples
-* returns: http://usejsdoc.org/tags-returns.html
-* 
 /**
  * Listen for the document to load and initialize the application
  */
@@ -9,15 +5,6 @@ $(document).ready(initializeApp);
 
 /**
  * Define all global variables here.  
- */
-/***********************
- * contact_array - global array to hold student objects
- * @type {Array}
- * example of contact_array after input: 
- * contact_array = [
- *  { name: 'Jake', course: 'Math', grade: 85 },
- *  { name: 'Jill', course: 'Comp Sci', grade: 85 }
- * ];
  */
 var contact_array = [];
 var dataPull;
@@ -29,7 +16,7 @@ var contactObj;
  * initializeApp 
  * @params {undefined} none
  * @returns: {undefined} none
- * initializes the application, including adding click handlers and pulling in any data from the server, in later versions
+ * initializes the application, including adding click handlers and pulling in any data from the server
  */
 function initializeApp() {
     addClickHandlersToElements();
@@ -41,7 +28,7 @@ function initializeApp() {
  * addClickHandlerstoElements
  * @params {undefined} 
  * @returns  {undefined}
- *     
+ *  attaches click handlers to the buttons within the app   
  */
 function addClickHandlersToElements() {
     $('.submit-btn').on('click', handleSubmitClicked);
@@ -60,8 +47,6 @@ function addClickHandlersToElements() {
       }
     });   
     window.onscroll = function() {fixTableHead()};
-    //$('.btn-default').on('click', handleCancelClick);
-    //$('.btn-primary').on('click', pullFromServer);
 }
 
 function fixTableHead(){
@@ -73,8 +58,8 @@ function fixTableHead(){
 }
 
 /***************************************************************************************************
- * handleAddClicked - Event Handler when user clicks the add button
- * @param {object} event  The event object from the click
+ * closeEditModal and closeDeleteModal - attaches hide modal class and removes show modal class to modals
+ * @param: none
  * @return: 
        none
  */
@@ -95,10 +80,10 @@ function handleSubmitClicked(event) {
 }
 
 /***************************************************************************************************
- * addContact - creates a student objects based on input fields in the form and adds the object to global student array
+ * addContact - creates a contact object based on input fields in the form and performs form validation
  * @param {undefined} none
  * @return undefined
- * @calls clearaddContactFormInputs, updateContactList
+ * @calls addToServer
  */
 function addContact() {
     var firstName = $('#first_name').val();
@@ -130,7 +115,7 @@ function addContact() {
 }
 
 /***************************************************************************************************
- * clearaddContactForm - clears out the form values based on inputIds variable
+ * clearAddContactForm - clears out the form values based on inputIds variable
  */
 function clearAddContactFormInputs() {
     $('#first_name').val("");
@@ -139,9 +124,9 @@ function clearAddContactFormInputs() {
     $('#phone').val("");
 }
 /***************************************************************************************************
- * renderContactOnDom - take in a student object, create html elements from the values and then append the elements
- * into the .student_list tbody
- * @param {object} studentObj a single student object with course, name, and grade inside
+ * renderContactOnDom - take in a contact index, creates html elements from the values and then appends the elements
+ * into the table tbody
+ * @param index for a single contact object
  */
 function renderContactOnDom(indexNum) {
     //var lastIndex = contact_array.length - 1;
@@ -213,7 +198,6 @@ function renderContactOnDom(indexNum) {
         });
         $(editButton).click(function (event) {
             contactId = $(event.target).attr('rowIndex');
-            //console.log("EditBtn clicked");
             $(".confirm-modal").addClass("show-modal");
             $(".confirm-modal").removeClass('hide-modal');
 
@@ -233,14 +217,20 @@ function renderContactOnDom(indexNum) {
 }
 
 /***************************************************************************************************
- * updateContactList - centralized function to update the average and call student list update
- * @param students {array} the array of student objects
+ * updateContactList - centralized function to update the contact array list
+ * @param type {string} checkif rendering all contacts or a single added contact
  * @returns {undefined} none
- * @calls renderContactOnDom, calculateGradeAverage, renderGradeAverage
+ * @calls renderContactOnDom
  */
 function updateContactList(string) {
     var length = contact_array.length - 1;
+    if(contact_array.length === 0){
+        $("tbody").text("No Contacts Available!");
+    }
     if (string === 'add') {
+        if(contact_array.length === 1){
+            $("tbody").text("");
+        }
         renderContactOnDom(length);
     } else {
         for (var i = 0; i < contact_array.length; i++) {
@@ -249,6 +239,12 @@ function updateContactList(string) {
     }
 }
 
+/***************************************************************************************************
+ * updateServerContact - updates server when contact is edited
+ * @param  {event} 
+ * @returns {undefined} none
+ * @calls ajax call to update the database table
+ */
 function updateServerContact(event){
     event.preventDefault();
     
@@ -295,10 +291,27 @@ function updateServerContact(event){
 
 }
 
+/***************************************************************************************************
+ * removeContact - deletes contact from DOM
+ * @param  {event} 
+ * @returns {undefined} none
+ * @none
+ */
 function removeContact() {
     contact_array.splice(deleteIndex, 1);
     $(".delete-btn[rowIndex=" + contactId + ']').parent().parent().remove();
+    
+    if(contact_array.length === 0){
+        $("tbody").text("No Contacts Available!");
+    }
 }
+
+/***************************************************************************************************
+ * pullFromServer - reads data from server
+ * @param  {none} 
+ * @returns {undefined} none
+ * @calls ajax call to reaD the database table
+ */
 
 function pullFromServer() {
     $.ajax({
@@ -311,6 +324,13 @@ function pullFromServer() {
     });
 
 }
+
+/***************************************************************************************************
+ * successfulUpdate - updates the contact array after pulling from server
+ * @param  {event} 
+ * @returns {undefined} none
+ * @calls renderEditContact
+ */
 function successfulUpdate(data) {
     console.log('successful update: '+ data.success);
     if (data.success === true) {
@@ -326,6 +346,12 @@ function successfulUpdate(data) {
     }
 }
 
+/***************************************************************************************************
+ * renderEditContact - updates DOM when contact is edited
+ * @param  {index}  
+ * @returns {undefined} none
+ * @calls none
+ */
 function renderEditContact(editIndex){
     $(".edit-btn[rowIndex=" + contactId + ']').parent().parent().find(".td:nth-of-type(1)").text(contact_array[editIndex].firstName);
     
@@ -336,16 +362,15 @@ function renderEditContact(editIndex){
     $(".edit-btn[rowIndex=" + contactId + ']').parent().parent().find(".td:nth-of-type(4)").text(contact_array[editIndex].email);
 }
 
+/***************************************************************************************************
+ * successfulPull - updates contact array when data is pulled from database
+ * @param  {data} 
+ * @returns {undefined} none
+ * @calls updateContactList
+ */
 function successfulPull(data) {
     dataPull = data.data;
-    addServerDataToArray();
-}
-
-function errorFromServer(error) {
-    console.log('something went wrong :(', error);
-}
-
-function addServerDataToArray() {
+    
     var contactObj = {};
     for (var j = 0; j < dataPull.length; j++) {
 
@@ -361,6 +386,22 @@ function addServerDataToArray() {
     updateContactList();
 }
 
+/***************************************************************************************************
+ * errorFromServer - console log for error 
+ * @param  {error} 
+ * @returns {undefined} none
+ * @calls none
+ */
+function errorFromServer(error) {
+    console.log('something went wrong :(', error);
+}
+
+/***************************************************************************************************
+ * addToServer - adds contact to database 
+ * @param  {contact} 
+ * @returns {undefined} none
+ * @calls ajax call to create new contact
+ */
 function addToServer(contact) {
     $.ajax({
         dataType: 'json',
@@ -377,6 +418,12 @@ function addToServer(contact) {
     });
 }
 
+/***************************************************************************************************
+ * successfulAdd - adds contact to array 
+ * @param  {data} 
+ * @returns {undefined} none
+ * @calls updateContactList, clearAddContactFormInputs
+ */
 function successfulAdd(data) {
     console.log('successful add: '+ data);
     if (data.success === true) {
@@ -387,6 +434,12 @@ function successfulAdd(data) {
     }
 }
 
+/***************************************************************************************************
+ * deleteFromServer - deletes contact from database 
+ * @param  {none} 
+ * @returns {undefined} none
+ * @calls ajax call to delete contact
+ */
 function deleteFromServer() {
     closeDeleteModal();
     $.ajax({
@@ -400,6 +453,13 @@ function deleteFromServer() {
         error: errorFromServer
     });
 }
+
+/***************************************************************************************************
+ * successfulDelete - deletes contact from database response
+ * @param  {data} 
+ * @returns {undefined} none
+ * @calls removeContact
+ */
 
 function successfulDelete(data) {
     console.log('successful delete: ' + data.success);

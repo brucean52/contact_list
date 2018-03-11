@@ -28,6 +28,11 @@ h3 {
     padding-left: 1%;
 }
 
+tbody {
+    font-family: 'Roboto';
+    text-align: center;
+}
+
 .add-input {
     font-family: 'Roboto';
     width: 90%;
