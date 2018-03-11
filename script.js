@@ -34,8 +34,6 @@ var contactObj;
 function initializeApp() {
     addClickHandlersToElements();
     pullFromServer();
-    //renderContactOnDom();
-    //renderGradeAverage();
 }
 
 
@@ -96,16 +94,6 @@ function handleSubmitClicked(event) {
     addContact();
 }
 
-/***************************************************************************************************
- * handleCancelClicked - Event Handler when user clicks the cancel button, should clear out student form
- * @param: {undefined} none
- * @returns: {undefined} none
- * @calls: clearaddContactFormInputs
- */
-//function handleCancelClick() {
-//    console.log('cancel clicked.');
-//    clearaddContactFormInputs();
-//}
 /***************************************************************************************************
  * addContact - creates a student objects based on input fields in the form and adds the object to global student array
  * @param {undefined} none
@@ -339,9 +327,6 @@ function successfulUpdate(data) {
 }
 
 function renderEditContact(editIndex){
-//    var test =     $(".edit-btn[rowIndex=" + contactId + ']').parent().parent().find(".td:nth-of-type(1)").text();
-//    console.log(test);
-    
     $(".edit-btn[rowIndex=" + contactId + ']').parent().parent().find(".td:nth-of-type(1)").text(contact_array[editIndex].firstName);
     
     $(".edit-btn[rowIndex=" + contactId + ']').parent().parent().find(".td:nth-of-type(2)").text(contact_array[editIndex].lastName);
