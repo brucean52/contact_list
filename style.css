@@ -33,6 +33,9 @@ tbody {
     text-align: center;
 }
 
+.form-buttons{
+    display: inline-block;
+}
 .add-input {
     font-family: 'Roboto';
     width: 90%;
@@ -73,6 +76,7 @@ tbody {
     color: white;
 }
 
+
 .confirm-edit {
     font-family: 'Montserrat';
     font-weight: 600;
@@ -91,12 +95,12 @@ tbody {
     color: white;
 } 
 
-.delete-btn, .edit-btn, .cancel-edit, .cancel-delete, .confirm-delete{
+.delete-btn, .edit-btn, .cancel-edit, .cancel-delete, .confirm-delete, .clear-btn{
     font-weight: 600;
     width: 80px;
 }
 
-.delete-btn , .cancel-edit, .confirm-delete{
+.delete-btn , .cancel-edit, .confirm-delete, .clear-btn{
     font-family: 'Montserrat';
     color: black;
     background-color: white;
@@ -111,7 +115,7 @@ tbody {
     color: white;    
 }
 
-.edit-btn, .cancel-edit, .cancel-delete {
+.edit-btn, .cancel-edit, .cancel-delete, .clear-btn{
     font-family: 'Montserrat';
     color: black;
     background-color: white;
@@ -121,9 +125,14 @@ tbody {
     border: 2px solid #555555;    
 }
 
-.edit-btn:hover, .cancel-edit:hover, .cancel-delete:hover{
+.edit-btn:hover, .cancel-edit:hover, .cancel-delete:hover, .clear-btn:hover{
     background-color: #555555;
     color: white;    
+}
+
+.clear-btn{
+    margin: 2% 0;
+    width: 75px;
 }
 
 .table {

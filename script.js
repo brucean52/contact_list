@@ -37,6 +37,7 @@ function addClickHandlersToElements() {
     $('#phone, #edit_phone').mask('(000) 000-0000');
     $('.confirm-edit').on('click', updateServerContact);
     $('.confirm-delete').on('click', deleteFromServer);
+    $('.clear-btn').on('click', clearAddContactFormInputs);
     
     $('.edit-input').keypress(function (event) {
      var key = event.which;
@@ -182,6 +183,7 @@ function renderContactOnDom(indexNum) {
     (function () {
         $(delButton).click(function (event) {
             contactId = $(event.target).attr('rowIndex');
+            console.log("contactID", contactId);
             $(".delete-modal").addClass("show-modal");
             $(".delete-modal").removeClass('hide-modal');
             
@@ -198,6 +200,7 @@ function renderContactOnDom(indexNum) {
         });
         $(editButton).click(function (event) {
             contactId = $(event.target).attr('rowIndex');
+            console.log("contactID", contactId);
             $(".confirm-modal").addClass("show-modal");
             $(".confirm-modal").removeClass('hide-modal');
 
@@ -332,7 +335,6 @@ function pullFromServer() {
  * @calls renderEditContact
  */
 function successfulUpdate(data) {
-    console.log('successful update: '+ data.success);
     if (data.success === true) {
         for(var j =0; j<contact_array.length; j++){
             if(contact_array[j].id === contactId){
@@ -393,7 +395,7 @@ function successfulPull(data) {
  * @calls none
  */
 function errorFromServer(error) {
-    console.log('something went wrong :(', error);
+    $( ".edit-form-response" ).text( "404 Error. Contact was not added!" );
 }
 
 /***************************************************************************************************
@@ -425,9 +427,9 @@ function addToServer(contact) {
  * @calls updateContactList, clearAddContactFormInputs
  */
 function successfulAdd(data) {
-    console.log('successful add: '+ data);
     if (data.success === true) {
-        contactObj.id = data.id;
+        contactObj.id = data.id.toString();
+        console.log('contact obj', contactObj);
         contact_array.push(contactObj);
         updateContactList('add');
         clearAddContactFormInputs();
@@ -462,7 +464,6 @@ function deleteFromServer() {
  */
 
 function successfulDelete(data) {
-    console.log('successful delete: ' + data.success);
     if (data.success === true) {
         removeContact();
     }
