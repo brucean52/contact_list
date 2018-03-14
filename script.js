@@ -99,9 +99,11 @@ function addContact() {
         $( ".form-response" ).text( "Please enter a valid first name" );
     } else if(!/\S/.test(lastName)){
         $( ".form-response" ).text( "Please enter a valid last name" );
-    } else if(phoneRegex.test(phone) === false){
+    } else if(phone === "" && email === ""){
+        $( ".form-response" ).text( "Enter either a phone or email" );
+    } else if(phone !== "" && phoneRegex.test(phone) === false){
         $( ".form-response" ).text( "Please enter a valid phone" );
-    } else if(emailRegex.test(email) === false){
+    } else if(email !== "" && emailRegex.test(email) === false){
         $( ".form-response" ).text( "Please enter a valid email" );
     } else {
         contactObj = {
@@ -263,9 +265,11 @@ function updateServerContact(event){
         $( ".edit-form-response" ).text( "Please enter a valid first name" );
     } else if(!/\S/.test(lastName)){
         $( ".edit-form-response" ).text( "Please enter a valid last name" );
-    } else if(phoneRegex.test(phone) === false){
+    } else if(phone === "" && email === ""){
+        $( ".edit-form-response" ).text( "Enter either a phone or email" );
+    } else if(phone !== "" && phoneRegex.test(phone) === false){
         $( ".edit-form-response" ).text( "Please enter a valid phone" );
-    } else if(emailRegex.test(email) === false){
+    } else if(email !== "" && emailRegex.test(email) === false){
         $( ".edit-form-response" ).text( "Please enter a valid email" );
     } else {
         contactObj = {

@@ -211,7 +211,7 @@ tbody {
 
 .form-response, .edit-form-response{
     color: red;
-    margin-left: 2%;
+    margin: 1% 0% 1% 2%;
 }
 
 .modal-content{
