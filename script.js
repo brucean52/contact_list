@@ -149,23 +149,26 @@ function sortFirstName(){
 }
 
 function compareFirst(a,b) {
-  if (a.firstName < b.firstName)
+    a = a.firstName.toLowerCase();
+    b = b.firstName.toLowerCase();
+  if (a < b)
     return -1;
-  if (a.firstName > b.firstName)
+  if (a > b)
     return 1;
   return 0;
 }
 
 function compareFirstUp(a,b) {
-  if (b.firstName < a.firstName)
+    a = a.firstName.toLowerCase();
+    b = b.firstName.toLowerCase();
+  if (b < a)
     return -1;
-  if (b.firstName > a.firstName)
+  if (b > a)
     return 1;
   return 0;
 }
 
 function sortLastName(){
-    //console.log('last name clicked');
     $('.sort-icon-first').addClass("hide-icon");
     if(lastNameSort === 0 || lastNameSort === 1){
         $('.sort-icon-last').removeClass("fa-sort-up");
@@ -185,17 +188,21 @@ function sortLastName(){
 
 
 function compareLast(a,b) {
-  if (a.lastName < b.lastName)
+    a = a.lastName.toLowerCase();
+    b = b.lastName.toLowerCase();
+  if (a < b)
     return -1;
-  if (a.lastName > b.lastName)
+  if (a > b)
     return 1;
   return 0;
 }
 
 function compareLastUp(a,b) {
-  if (b.lastName < a.lastName)
+    a = a.lastName.toLowerCase();
+    b = b.lastName.toLowerCase();
+  if (b < a)
     return -1;
-  if (b.lastName > a.lastName)
+  if (b > a)
     return 1;
   return 0;
 }
