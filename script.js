@@ -11,6 +11,8 @@ var dataPull;
 var deleteIndex = null;
 var contactId = null;
 var contactObj;
+var firstNameSort = 0;
+var lastNameSort = 0;
 
 /***************************************************************************************************
  * initializeApp 
@@ -38,7 +40,76 @@ function addClickHandlersToElements() {
     $('.confirm-edit').on('click', updateServerContact);
     $('.confirm-delete').on('click', deleteFromServer);
     $('.clear-btn').on('click', clearAddContactFormInputs);
+    $('.first-name-sort').on('click', sortFirstName);
+    $('.last-name-sort').on('click', sortLastName);
     
+    $(".first-name-sort").hover(function(){
+        switch(firstNameSort){
+            case -1:
+                $('.sort-icon-first').removeClass("fa-sort-down");
+                $('.sort-icon-first').addClass("fa-sort-up");
+                break;
+            case 0:
+                $('.sort-icon-first').removeClass("hide-icon");
+                break;
+            case 1:
+                $('.sort-icon-first').removeClass("fa-sort-up");
+                $('.sort-icon-first').addClass("fa-sort-down");
+                break;
+            default:
+                break;
+        }
+    }, function(){
+        switch(firstNameSort){
+            case -1:
+                $('.sort-icon-first').removeClass("fa-sort-up");
+                $('.sort-icon-first').addClass("fa-sort-down");
+                break;
+            case 0:
+                $('.sort-icon-first').addClass("hide-icon");
+                break;
+            case 1: 
+                $('.sort-icon-first').removeClass("fa-sort-down");
+                $('.sort-icon-first').addClass("fa-sort-up");
+                break;
+            default:
+                break;
+        }
+    });
+    
+    $(".last-name-sort").hover(function(){
+        switch(lastNameSort){
+            case -1:
+                $('.sort-icon-last').removeClass("fa-sort-down");
+                $('.sort-icon-last').addClass("fa-sort-up");
+                break;
+            case 0:
+                $('.sort-icon-last').removeClass("hide-icon");
+                break;
+            case 1:
+                $('.sort-icon-last').removeClass("fa-sort-up");
+                $('.sort-icon-last').addClass("fa-sort-down");
+                break;
+            default:
+                break;
+        }
+    }, function(){
+        switch(lastNameSort){
+            case -1:
+                $('.sort-icon-last').removeClass("fa-sort-up");
+                $('.sort-icon-last').addClass("fa-sort-down");
+                break;
+            case 0:
+                $('.sort-icon-last').addClass("hide-icon");
+                break;
+            case 1: 
+                $('.sort-icon-last').removeClass("fa-sort-down");
+                $('.sort-icon-last').addClass("fa-sort-up");
+                break;
+            default:
+                break;
+        }
+    });
     $('.edit-input').keypress(function (event) {
      var key = event.which;
      if(key === 13)  // the enter key code
@@ -56,6 +127,77 @@ function fixTableHead(){
     } else {
         $('.tableHead').removeClass("fixed");
   }
+}
+
+
+function sortFirstName(){
+    $('.sort-icon-last').addClass("hide-icon");
+    if(firstNameSort === 0 || firstNameSort === 1){
+        $('.sort-icon-first').removeClass("fa-sort-up");
+        $('.sort-icon-first').addClass("fa-sort-down");
+        contact_array.sort(compareFirst);
+        firstNameSort = -1;
+        lastNameSort = 0;
+    } else {
+        $('.sort-icon-first').removeClass("fa-sort-down");
+        $('.sort-icon-first').addClass("fa-sort-up");
+        contact_array.sort(compareFirstUp);
+        firstNameSort = 1;
+        lastNameSort = 0;
+    }
+    updateContactList("sort");
+}
+
+function compareFirst(a,b) {
+  if (a.firstName < b.firstName)
+    return -1;
+  if (a.firstName > b.firstName)
+    return 1;
+  return 0;
+}
+
+function compareFirstUp(a,b) {
+  if (b.firstName < a.firstName)
+    return -1;
+  if (b.firstName > a.firstName)
+    return 1;
+  return 0;
+}
+
+function sortLastName(){
+    //console.log('last name clicked');
+    $('.sort-icon-first').addClass("hide-icon");
+    if(lastNameSort === 0 || lastNameSort === 1){
+        $('.sort-icon-last').removeClass("fa-sort-up");
+        $('.sort-icon-last').addClass("fa-sort-down");
+        contact_array.sort(compareLast);
+        lastNameSort = -1;
+        firstNameSort = 0;
+    } else {
+        $('.sort-icon-last').removeClass("fa-sort-down");
+        $('.sort-icon-last').addClass("fa-sort-up");
+        contact_array.sort(compareLastUp);
+        lastNameSort = 1;
+        firstNameSort = 0;
+    }
+    updateContactList("sort");
+}
+
+
+function compareLast(a,b) {
+  if (a.lastName < b.lastName)
+    return -1;
+  if (a.lastName > b.lastName)
+    return 1;
+  return 0;
+}
+
+function compareLastUp(a,b) {
+  if (b.lastName < a.lastName)
+    return -1;
+  if (b.lastName > a.lastName)
+    return 1;
+  return 0;
 }
 
 /***************************************************************************************************
@@ -185,13 +327,13 @@ function renderContactOnDom(indexNum) {
     (function () {
         $(delButton).click(function (event) {
             contactId = $(event.target).attr('rowIndex');
-            console.log("contactID", contactId);
+            //console.log("contactID", contactId);
             $(".delete-modal").addClass("show-modal");
             $(".delete-modal").removeClass('hide-modal');
             
             for(var j =0; j<contact_array.length; j++){
                 if(contact_array[j].id === contactId){
-                    console.log('deleteIndex', deleteIndex);
+                    //console.log('deleteIndex', deleteIndex);
                     deleteIndex = j;
                     var name = contact_array[j].firstName + " " + contact_array[j].lastName+"?";
                     $( ".remove-contact" ).text( "Remove contact "+name );
@@ -202,7 +344,7 @@ function renderContactOnDom(indexNum) {
         });
         $(editButton).click(function (event) {
             contactId = $(event.target).attr('rowIndex');
-            console.log("contactID", contactId);
+            //console.log("contactID", contactId);
             $(".confirm-modal").addClass("show-modal");
             $(".confirm-modal").removeClass('hide-modal');
 
@@ -232,15 +374,22 @@ function updateContactList(string) {
     if(contact_array.length === 0){
         $("tbody").text("No Contacts Available!");
     }
-    if (string === 'add') {
-        if(contact_array.length === 1){
-            $("tbody").text("");
-        }
-        renderContactOnDom(length);
-    } else {
-        for (var i = 0; i < contact_array.length; i++) {
-            renderContactOnDom(i);
-        }
+
+    switch(string){
+        case 'add':
+            if(contact_array.length === 1){
+                $("tbody").text("");
+            }   
+            renderContactOnDom(length);
+            break;
+        case 'sort':
+            $("tbody").empty();
+            /* Fall Through */
+        default:
+            for (var i = 0; i < contact_array.length; i++) {
+                renderContactOnDom(i);
+            }
+            break;
     }
 }
 
@@ -433,7 +582,7 @@ function addToServer(contact) {
 function successfulAdd(data) {
     if (data.success === true) {
         contactObj.id = data.id.toString();
-        console.log('contact obj', contactObj);
+        //console.log('contact obj', contactObj);
         contact_array.push(contactObj);
         updateContactList('add');
         clearAddContactFormInputs();

@@ -159,6 +159,7 @@ tbody {
     padding: 0.5em;
     text-overflow: ellipsis;
     width: 20%;
+    height: 30px;
 }
 
 .tr {
@@ -186,6 +187,15 @@ tbody {
     white-space: nowrap;
     border-bottom: 1px solid #d0d0d0;
     text-align: left;
+}
+
+.first-name-sort, .last-name-sort{
+    cursor: pointer;
+    user-select: none;
+}
+
+.sort-icon-first, .sort-icon-last {
+    margin-left: 3%;
 }
 
 .add-form {
@@ -251,7 +261,7 @@ tbody {
 .show-modal{
     display: flex;
 }
-.hide-modal{
+.hide-modal, .hide-icon{
     display: none;
 }
 
