@@ -170,7 +170,10 @@ class ViewContact {
                 break;
             case 'sort':
                 $("tbody").empty();
-                /* Fall Through */
+                for (var i = 0; i < this.model.contact_array.length; i++) {
+                    this.renderContactOnDom(i);
+                }
+                break;
             default:
                 for (var i = 0; i < this.model.contact_array.length; i++) {
                     this.renderContactOnDom(i);
