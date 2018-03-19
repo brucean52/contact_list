@@ -6,7 +6,7 @@ This app is a technical demo using jQuery, Ajax, Flexbox, PHP, and MySQL.
 
 ### Features
 
-* Mobile Responsive
+* jQuery DOM manipulation
 * Sortable contact list
 * CRUD operations using PHP and MySQL
 

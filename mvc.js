@@ -156,7 +156,7 @@ class ViewContact {
     }
 
     updateContactList(string) {
-        var length = this.model.contact_array.length - 1;
+        var lastIndex = this.model.contact_array.length - 1;
         if (this.model.contact_array.length === 0) {
             $("tbody").text("No Contacts Available!");
         }
@@ -166,14 +166,11 @@ class ViewContact {
                 if (this.model.contact_array.length === 1) {
                     $("tbody").text("");
                 }
-                this.renderContactOnDom(length);
+                this.renderContactOnDom(lastIndex);
                 break;
             case 'sort':
                 $("tbody").empty();
-                for (var i = 0; i < this.model.contact_array.length; i++) {
-                    this.renderContactOnDom(i);
-                }
-                break;
+                /** Fall Through**/
             default:
                 for (var i = 0; i < this.model.contact_array.length; i++) {
                     this.renderContactOnDom(i);
@@ -576,32 +573,33 @@ class CtrlContact {
 
     sortFirstName() {
         this.view.lastHideIcon();
-        if (this.model.firstNameSort === 0 || this.model.firstNameSort === 1) {
-            this.view.firstSortDown();
+        if (this.model.firstNameSort === 0 || this.model.firstNameSort === 1) {         
             this.model.contact_array.sort(this.model.compareFirst);
             this.model.firstNameSort = -1;
             this.model.lastNameSort = 0;
-        } else {
-            this.view.firstSortUp();
+            this.view.firstSortDown();
+        } else if(this.model.firstNameSort === -1){
+            
             this.model.contact_array.sort(this.model.compareFirstUp);
             this.model.firstNameSort = 1;
             this.model.lastNameSort = 0;
+            this.view.firstSortUp();
         }
         this.view.updateContactList("sort");
     }
 
     sortLastName() {
         this.view.firstHideIcon();
-        if (this.model.lastNameSort === 0 || this.model.lastNameSort === 1) {
-            this.view.lastSortDown();
+        if (this.model.lastNameSort === 0 || this.model.lastNameSort === 1) { 
             this.model.contact_array.sort(this.model.compareLast);
             this.model.lastNameSort = -1;
             this.model.firstNameSort = 0;
-        } else {
-            this.view.lastSortUp();
+            this.view.lastSortDown();
+        } else if(this.model.lastNameSort === -1){
             this.model.contact_array.sort(this.model.compareLastUp);
             this.model.lastNameSort = 1;
             this.model.firstNameSort = 0;
+            this.view.lastSortUp();
         }
         this.view.updateContactList("sort");
     }
